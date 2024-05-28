@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_tpm/screens/Home/Main/component/BottomCard.dart';
-import 'package:project_tpm/screens/Home/Main/component/TopBar.dart';
 import 'package:project_tpm/screens/Home/Main/component/TopCard.dart';
 
 class HomeMainScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
           child: Container(
                 padding: const EdgeInsets.only(top: 15),
                 child: const Column(
-          children: [TopBar(), TopCard(), BottomCard()],
+          children: [TopCard(), BottomCard()],
                 ),
               ),
         ));

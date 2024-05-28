@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
 
+
+List<String> userLocation = <String>['Indonesia', 'Singapore', 'Japan', 'All'];
 class TopBar extends StatefulWidget {
   const TopBar({super.key});
 
@@ -9,24 +11,26 @@ class TopBar extends StatefulWidget {
 }
 
 class _TopBarState extends State<TopBar> {
+  String locationNow = userLocation.first;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Current Location', style: TextStyle(
+              const Text('Current Location', style: TextStyle(
                 color: ColorPallete.fifthColor,
               ),
               ),
               Row(
                 children: [
-                  Icon(Icons.location_on_outlined),
-                  Text('Yogyakarta'),
+                  const Icon(Icons.location_on_outlined),
+                  _dropdownWidget(),
                 ],
               ),
             ],
@@ -34,6 +38,27 @@ class _TopBarState extends State<TopBar> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
         ],
       ),
+    );
+  }
+
+  Widget _dropdownWidget(){
+    return DropdownButton<String>(
+      value: locationNow,
+      // underline: Container(
+      //   height: 2,
+      //   color: Colors.deepPurpleAccent,
+      // ),
+      onChanged: (String? value) {
+        setState(() {
+          locationNow = value!;
+        });
+      },
+      items: userLocation.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

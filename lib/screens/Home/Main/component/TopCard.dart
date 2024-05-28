@@ -1,6 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:project_tpm/screens/Hotel/screen/HotelScreen.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
+
+List<String> userLocation = <String>['Indonesia', 'Singapore', 'Japan', 'All'];
 
 class TopCard extends StatefulWidget {
   const TopCard({super.key});
@@ -10,10 +12,12 @@ class TopCard extends StatefulWidget {
 }
 
 class _TopCardState extends State<TopCard> {
+  String locationNow = userLocation.first;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: Column(
         children: [_topInfo(), _topCaraousel()],
       ),
@@ -21,21 +25,28 @@ class _TopCardState extends State<TopCard> {
   }
 
   Widget _topInfo() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text(
-            'Near Hotel',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    return Column(
+      children: [
+        _dropdownContainer(),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'High Rating Hotel',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelScreen(location: locationNow, sort: true)));
+                },
+                icon: const Icon(Icons.arrow_forward,),
+              )
+            ],
           ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.arrow_forward,),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -111,6 +122,54 @@ class _TopCardState extends State<TopCard> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _dropdownContainer(){
+    return Container(
+      padding: const EdgeInsets.all(5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Current Location', style: TextStyle(
+                color: ColorPallete.fifthColor,
+              ),
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.location_on_outlined),
+                  _dropdownWidget(),
+                ],
+              ),
+            ],
+          ),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
+        ],
+      ),
+    );
+  }
+
+  Widget _dropdownWidget(){
+    return DropdownButton<String>(
+      value: locationNow,
+      // underline: Container(
+      //   height: 2,
+      //   color: Colors.deepPurpleAccent,
+      // ),
+      onChanged: (String? value) {
+        setState(() {
+          locationNow = value!;
+        });
+      },
+      items: userLocation.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

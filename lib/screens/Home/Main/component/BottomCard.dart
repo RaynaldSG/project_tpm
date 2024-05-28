@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../Hotel/screen/HotelScreen.dart';
+
 class BottomCard extends StatefulWidget {
   const BottomCard({super.key});
 
@@ -11,7 +13,7 @@ class _BottomCardState extends State<BottomCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: Column(
         children: [_topInfo(), _Caraousel()],
       ),
@@ -20,17 +22,19 @@ class _BottomCardState extends State<BottomCard> {
 
   Widget _topInfo() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text(
-            'High Rating Hotel',
+            'All Hotel',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.arrow_forward,),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelScreen(location: 'all', sort: false,)));
+            },
+            icon: const Icon(Icons.arrow_forward,),
           )
         ],
       ),
@@ -39,7 +43,7 @@ class _BottomCardState extends State<BottomCard> {
 
   Widget _Caraousel() {
     return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),  // This is to allow the SingleChildScrollView to handle scrolling
+      physics: const NeverScrollableScrollPhysics(),  // This is to allow the SingleChildScrollView to handle scrolling
       shrinkWrap: true,
       itemCount: 3,
       itemBuilder: (context, index) => _imageCard(),
@@ -58,9 +62,9 @@ class _BottomCardState extends State<BottomCard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
               ),
               child: Image.network(
                 'https://cf.bstatic.com/xdata/images/hotel/square240/467524871.jpg?k=23f4ddf9e9e1bc2d6ce41cfb2b1451b39ad69b1d25ce9b76e5e913f8361103dd&o=',
