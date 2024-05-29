@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:project_tpm/controller/HotelController.dart';
 import 'package:project_tpm/screens/Hotel/screen/HotelScreen.dart';
+import 'package:project_tpm/utils/api_request/ApiRequest.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
 
-List<String> userLocation = <String>['Indonesia', 'Singapore', 'Japan', 'All'];
+import '../../../../model/HotelsModel.dart';
+import '../HomeMainScreen.dart';
 
 class TopCard extends StatefulWidget {
   const TopCard({super.key});
@@ -12,14 +15,14 @@ class TopCard extends StatefulWidget {
 }
 
 class _TopCardState extends State<TopCard> {
-  String locationNow = userLocation.first;
+  HotelController hotelController = HotelController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 10),
       child: Column(
-        children: [_topInfo(), _topCaraousel()],
+        children: [_topInfo(), _dataGetter()],
       ),
     );
   }
@@ -50,19 +53,19 @@ class _TopCardState extends State<TopCard> {
     );
   }
 
-  Widget _topCaraousel() {
+  Widget _topCaraousel(List<Hotel> hotelData) {
     return SizedBox(
       height: 350,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: 3,
-          itemBuilder: (context, index) => _imageCard()),
+          itemBuilder: (context, index) => _imageCard(hotelData[index])),
     );
   }
 
-  Widget _imageCard() {
+  Widget _imageCard(Hotel hotelData) {
     return Container(
-      width: 250,
+      width: 310,
       height: 500,
       margin: const EdgeInsets.only(right: 10),
       child: Column(
@@ -81,37 +84,37 @@ class _TopCardState extends State<TopCard> {
                     topRight: Radius.circular(15),
                   ),
                   child: Image.network(
-                    'https://cf.bstatic.com/xdata/images/hotel/square240/467524871.jpg?k=23f4ddf9e9e1bc2d6ce41cfb2b1451b39ad69b1d25ce9b76e5e913f8361103dd&o=',
+                    hotelData.imageUrl!,
                     height: 250,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(top: 10, left: 5),
+                  child: Text(
+                    hotelData.name!,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Hotel Name',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text('Yogya'),
+                          Text(hotelData.location!),
                         ],
                       ),
-                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Icon(Icons.star, color: Colors.yellow[700], size: 30),
-                          const SizedBox(width: 5),
-                          const Text('5.0'),
+                          Text(hotelData.reviewScore!),
                         ],
                       ),
                     ],
@@ -170,6 +173,34 @@ class _TopCardState extends State<TopCard> {
           child: Text(value),
         );
       }).toList(),
+    );
+  }
+
+  Widget _dataGetter(){
+    return FutureBuilder(
+        future: ApiRequest.instance.loadHotels(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return _buildErrorSection();
+          }
+          if (snapshot.hasData) {
+            HotelsModel hotelsData = HotelsModel.fromJson(snapshot.data);
+            List<Hotel> hotelsDataRev = hotelController
+                .getHotelsData(hotelsData, locationNow, '', sort: true);
+            return _topCaraousel(hotelsDataRev);
+          }
+          return _buildLoadingSection();
+        },
+    );
+  }
+
+  Widget _buildErrorSection() {
+    return const Text("Error");
+  }
+
+  Widget _buildLoadingSection() {
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 }

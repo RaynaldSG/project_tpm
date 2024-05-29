@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:project_tpm/model/UserModel.dart';
-import 'package:project_tpm/screens/Home/HomeScreen.dart';
+import 'package:project_tpm/screens/Hotel/screen/DetailHotelScreen.dart';
 import 'package:project_tpm/screens/Login/LoginScreen.dart';
 import 'package:project_tpm/screens/Register/RegisterScreen.dart';
 
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/' : (context) => const HomeScreen(),
+        '/' : (context) => const DetailHotelScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
       },

@@ -35,8 +35,9 @@ class _HotelScreenState extends State<HotelScreen> {
           "Hotels",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: ColorPallete.secondaryColor,
+        backgroundColor: Colors.white,
       ),
+      backgroundColor: ColorPallete.secondaryColor,
       body: _getHotelsData(),
     );
   }
