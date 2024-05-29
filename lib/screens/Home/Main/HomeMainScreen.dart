@@ -17,12 +17,12 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-                padding: const EdgeInsets.only(top: 15),
-                child: const Column(
+      child: Container(
+        padding: const EdgeInsets.only(top: 15),
+        child: const Column(
           children: [TopCard(), BottomCard()],
-                ),
-              ),
-        ));
+        ),
+      ),
+    ));
   }
 }

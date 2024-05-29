@@ -8,4 +8,9 @@ class ApiRequest {
     return BaseNetwork.get("hotels");
   }
 
+  // Req Hotel Detail
+  Future<Map<String, dynamic>> loadDetailHotel(int id) {
+    return BaseNetwork.get("hotels/$id");
+  }
+
 }

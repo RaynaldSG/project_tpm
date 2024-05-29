@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_tpm/controller/HotelController.dart';
+import 'package:project_tpm/screens/Hotel/screen/DetailHotelScreen.dart';
 import 'package:project_tpm/screens/Hotel/screen/HotelScreen.dart';
 import 'package:project_tpm/utils/api_request/ApiRequest.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
@@ -42,9 +43,15 @@ class _TopCardState extends State<TopCard> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelScreen(location: locationNow, sort: true)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HotelScreen(location: locationNow, sort: true)));
                 },
-                icon: const Icon(Icons.arrow_forward,),
+                icon: const Icon(
+                  Icons.arrow_forward,
+                ),
               )
             ],
           ),
@@ -70,57 +77,67 @@ class _TopCardState extends State<TopCard> {
       margin: const EdgeInsets.only(right: 10),
       child: Column(
         children: [
-          Card(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  ),
-                  child: Image.network(
-                    hotelData.imageUrl!,
-                    height: 250,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(top: 10, left: 5),
-                  child: Text(
-                    hotelData.name!,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DetailHotelScreen(id: hotelData.id!)));
+            },
+            child: Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                    child: Image.network(
+                      hotelData.imageUrl!,
+                      height: 250,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(hotelData.location!),
-                        ],
+                  Container(
+                    padding: const EdgeInsets.only(top: 10, left: 5),
+                    child: Text(
+                      hotelData.name!,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Row(
-                        children: [
-                          Icon(Icons.star, color: Colors.yellow[700], size: 30),
-                          Text(hotelData.reviewScore!),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(hotelData.location!),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.star,
+                                color: Colors.yellow[700], size: 30),
+                            Text(hotelData.reviewScore!),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -128,7 +145,7 @@ class _TopCardState extends State<TopCard> {
     );
   }
 
-  Widget _dropdownContainer(){
+  Widget _dropdownContainer() {
     return Container(
       padding: const EdgeInsets.all(5),
       child: Row(
@@ -137,9 +154,11 @@ class _TopCardState extends State<TopCard> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Current Location', style: TextStyle(
-                color: ColorPallete.fifthColor,
-              ),
+              const Text(
+                'Current Location',
+                style: TextStyle(
+                  color: ColorPallete.fifthColor,
+                ),
               ),
               Row(
                 children: [
@@ -149,13 +168,14 @@ class _TopCardState extends State<TopCard> {
               ),
             ],
           ),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
         ],
       ),
     );
   }
 
-  Widget _dropdownWidget(){
+  Widget _dropdownWidget() {
     return DropdownButton<String>(
       value: locationNow,
       // underline: Container(
@@ -176,21 +196,21 @@ class _TopCardState extends State<TopCard> {
     );
   }
 
-  Widget _dataGetter(){
+  Widget _dataGetter() {
     return FutureBuilder(
-        future: ApiRequest.instance.loadHotels(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) {
-            return _buildErrorSection();
-          }
-          if (snapshot.hasData) {
-            HotelsModel hotelsData = HotelsModel.fromJson(snapshot.data);
-            List<Hotel> hotelsDataRev = hotelController
-                .getHotelsData(hotelsData, locationNow, '', sort: true);
-            return _topCaraousel(hotelsDataRev);
-          }
-          return _buildLoadingSection();
-        },
+      future: ApiRequest.instance.loadHotels(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasError) {
+          return _buildErrorSection();
+        }
+        if (snapshot.hasData) {
+          HotelsModel hotelsData = HotelsModel.fromJson(snapshot.data);
+          List<Hotel> hotelsDataRev = hotelController
+              .getHotelsData(hotelsData, locationNow, '', sort: true);
+          return _topCaraousel(hotelsDataRev);
+        }
+        return _buildLoadingSection();
+      },
     );
   }
 

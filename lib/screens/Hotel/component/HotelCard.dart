@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_tpm/screens/Hotel/screen/DetailHotelScreen.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
 
 import '../../../model/HotelsModel.dart';
@@ -15,7 +16,13 @@ class _HotelCardState extends State<HotelCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DetailHotelScreen(id: widget.hotelData.id!)));
+      },
       child: Card(
         color: Colors.white,
         child: Stack(
@@ -105,11 +112,13 @@ class _HotelCardState extends State<HotelCard> {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white.withOpacity(0.6),
                     ),
-                    child: Text(widget.hotelData.reviewScore!, style: const TextStyle(
-                      fontSize: 18,
-                      color: ColorPallete.thirdColor,
-                      fontWeight: FontWeight.bold
-                    ),),
+                    child: Text(
+                      widget.hotelData.reviewScore!,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          color: ColorPallete.thirdColor,
+                          fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               ),
