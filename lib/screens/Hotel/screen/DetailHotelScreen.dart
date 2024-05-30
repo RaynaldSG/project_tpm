@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_tpm/controller/BookmarkController.dart';
 import 'package:project_tpm/model/HotelDetailModel.dart';
 import 'package:project_tpm/screens/Booking/BookingScreen.dart';
 import 'package:project_tpm/screens/Hotel/component/detail/DetailFacilityHotel.dart';
@@ -18,6 +19,8 @@ class DetailHotelScreen extends StatefulWidget {
 
 class _DetailHotelScreenState extends State<DetailHotelScreen> {
   late HotelDetailData hotelData;
+  BookmarkController bookmarkController = BookmarkController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +29,27 @@ class _DetailHotelScreenState extends State<DetailHotelScreen> {
         centerTitle: true,
         backgroundColor: ColorPallete.secondaryColor,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.bookmark)),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  bookmarkController.setBookmark(widget.id);
+                });
+              },
+              icon: Icon(
+                Icons.bookmark,
+                color: bookmarkController.checkBookmark(widget.id)
+                    ? ColorPallete.primaryColor
+                    : Colors.white,
+              )),
         ],
       ),
       body: _getHotelsData(),
       bottomNavigationBar: ElevatedButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen(hotelData: hotelData)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BookingScreen(hotelData: hotelData)));
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: ColorPallete.primaryColor),

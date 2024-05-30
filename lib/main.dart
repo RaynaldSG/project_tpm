@@ -5,6 +5,8 @@ import 'package:project_tpm/model/UserModel.dart';
 import 'package:project_tpm/screens/Home/HomeScreen.dart';
 import 'package:project_tpm/screens/Login/LoginScreen.dart';
 import 'package:project_tpm/screens/Register/RegisterScreen.dart';
+import 'package:project_tpm/screens/Splash/SplashScreen.dart';
+import 'package:project_tpm/utils/security/Encryption.dart';
 
 
 late Box dataBox;
@@ -14,6 +16,7 @@ void main() async{
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(HistoryModelAdapter());
   dataBox = await Hive.openBox('dataBox');
+  Encryption();
   runApp(const MyApp());
 }
 
@@ -31,9 +34,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/' : (context) => const HomeScreen(),
+        '/' : (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
+        '/home': (context) => const HomeScreen(),
       },
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_tpm/controller/BookmarkController.dart';
 import 'package:project_tpm/screens/Hotel/screen/DetailHotelScreen.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
 
@@ -13,6 +14,7 @@ class HotelCard extends StatefulWidget {
 }
 
 class _HotelCardState extends State<HotelCard> {
+  BookmarkController bookmarkController = BookmarkController();
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -82,13 +84,15 @@ class _HotelCardState extends State<HotelCard> {
               right: 8,
               child: GestureDetector(
                 onTap: () {
-                  setState(() {});
+                  setState(() {
+                    bookmarkController.setBookmark(widget.hotelData.id!);
+                  });
                 },
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   backgroundColor: ColorPallete.thirdColor,
                   child: Icon(
                     Icons.bookmark,
-                    color: ColorPallete.secondaryColor,
+                    color: bookmarkController.checkBookmark(widget.hotelData.id!) ? ColorPallete.primaryColor : ColorPallete.secondaryColor,
                   ),
                 ),
               ),
