@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_tpm/model/HotelDetailModel.dart';
+import 'package:project_tpm/screens/Booking/BookingScreen.dart';
 import 'package:project_tpm/screens/Hotel/component/detail/DetailFacilityHotel.dart';
 import 'package:project_tpm/screens/Hotel/component/detail/DetailImageHotel.dart';
 import 'package:project_tpm/screens/Hotel/component/detail/DetailInfoHotel.dart';
@@ -16,6 +17,7 @@ class DetailHotelScreen extends StatefulWidget {
 }
 
 class _DetailHotelScreenState extends State<DetailHotelScreen> {
+  late HotelDetailData hotelData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,9 @@ class _DetailHotelScreenState extends State<DetailHotelScreen> {
       ),
       body: _getHotelsData(),
       bottomNavigationBar: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen(hotelData: hotelData)));
+        },
         style: ElevatedButton.styleFrom(
             backgroundColor: ColorPallete.primaryColor),
         child: Container(
@@ -51,7 +55,7 @@ class _DetailHotelScreenState extends State<DetailHotelScreen> {
         }
         if (snapshot.hasData) {
           HotelDetail hotelDataAll = HotelDetail.fromJson(snapshot.data);
-          HotelDetailData hotelData = hotelDataAll.data!;
+          hotelData = hotelDataAll.data!;
           return _buildSuccessSection(hotelData);
         }
         return _buildLoadingSection();
