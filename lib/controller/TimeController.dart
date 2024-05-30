@@ -1,5 +1,18 @@
 class TimeController {
 
+  String convertCountryToCode(String location){
+    String finalLocationCode = 'WIB';
+
+    if(location.contains('Singapore')){
+      finalLocationCode = 'SGT';
+    }
+    if(location.contains('Japan')){
+      finalLocationCode = 'JST';
+    }
+
+    return finalLocationCode;
+  }
+
   DateTime timeConvert(String location, DateTime time){
     DateTime finalTime;
 

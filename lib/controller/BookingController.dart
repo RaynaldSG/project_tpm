@@ -44,10 +44,14 @@ class BookingController {
     return finalTotal;
   }
 
-  bool checkTime(TimeOfDay time, DateTime start, TimeOfDay todayTime){
-    DateTime timeNow = DateTime.now();
-    if(DateUtils.isSameDay(start, timeNow)){
-      if(todayTime.hour >= time.hour && todayTime.minute >= time.minute){
+  bool checkTime(DateTime start, DateTime end, TimeOfDay userTime, TimeOfDay hotelTime, DateTime hotelDate){
+    if(DateUtils.isSameDay(start, end)){
+      if(hotelTime.hour >= userTime.hour && hotelTime.minute >= userTime.minute){
+        return false;
+      }
+    }
+    if(DateUtils.isSameDay(start, hotelDate)){
+      if(hotelDate.hour >= userTime.hour && hotelDate.minute >= userTime.minute){
         return false;
       }
     }

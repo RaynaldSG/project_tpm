@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:project_tpm/model/HistoryModel.dart';
 import 'package:project_tpm/model/UserModel.dart';
 import 'package:project_tpm/screens/Home/HomeScreen.dart';
 import 'package:project_tpm/screens/Login/LoginScreen.dart';
@@ -11,6 +12,7 @@ late Box dataBox;
 void main() async{
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
+  Hive.registerAdapter(HistoryModelAdapter());
   dataBox = await Hive.openBox('dataBox');
   runApp(const MyApp());
 }
