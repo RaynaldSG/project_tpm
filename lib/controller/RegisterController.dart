@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:project_tpm/controller/UserController.dart';
 import 'package:project_tpm/utils/security/Encryption.dart';
 
 import '../main.dart';
@@ -8,6 +9,8 @@ import '../model/UserModel.dart';
 import '../screens/Register/RegisterScreen.dart';
 
 class RegisterController {
+  UserController userController = UserController();
+
   static void registerLogic(
       BuildContext context, GlobalKey<FormState> registerFormState) {
     List<String>? emailData = dataBox.get('email');
@@ -20,7 +23,8 @@ class RegisterController {
             UserModel(
                 fullName: fullNControllerR.text,
                 email: emailControllerR.text,
-                password: passControllerR.text));
+                password: passControllerR.text,
+                imageLocation: ''));
         UserModel user = dataBox.get(emailControllerR.text);
         Timer(const Duration(seconds: 1), () {
           Navigator.pushReplacementNamed(context, '/login');
@@ -34,14 +38,14 @@ class RegisterController {
             UserModel(
                 fullName: fullNControllerR.text,
                 email: emailControllerR.text,
-                password: password));
+                password: password,
+                imageLocation: ''));
         print(
             'Encrypted Password: ${Encryption.encrypt(passControllerR.text)}');
         print('tes');
         UserModel user = dataBox.get(emailControllerR.text);
 
         Navigator.pushReplacementNamed(context, '/login');
-
       } else {
         SnackBar snackBar =
             const SnackBar(content: Text("Register Failed, Change Your Email"));
