@@ -1,5 +1,6 @@
 import 'dart:io' as i;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tpm/controller/SharedPreferenceController.dart';
 import 'package:project_tpm/controller/UserController.dart';
@@ -18,9 +19,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   UserController userController = UserController();
   late String imagePath;
   late UserModel userData;
-  
+
   @override
-  void initState(){
+  void initState() {
     userData = userController.getUser()!;
     imagePath = userData.imageLocation;
   }
@@ -29,22 +30,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.bold),),
+        title: const Text(
+          'Profile',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: ColorPallete.secondaryColor,
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(onPressed: (){
-            SharedPreferenceController.sharedPrefData.setBool('login', false);
-            Navigator.pushReplacementNamed(context, '/');
-          }, icon: const Icon(Icons.logout))
+          IconButton(
+              onPressed: () {
+                SharedPreferenceController.sharedPrefData
+                    .setBool('login', false);
+                Navigator.pushReplacementNamed(context, '/');
+              },
+              icon: const Icon(Icons.logout))
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildHeader(),
+            _buildInfoCard(),
+          ],
         ),
-      body: Column(
-        children: [
-          _buildHeader(),
-          _buildInfoCard(),
-        ],
       ),
     );
   }
@@ -59,15 +68,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               imagePath = await ImagePickerHelper().pickImage();
               userData.imageLocation = imagePath;
               userController.setUser(userData);
-              setState(() {
-
-              });
+              setState(() {});
             },
             child: CircleAvatar(
               radius: 100,
-              backgroundImage: imagePath.isEmpty ? const AssetImage('assets/images/profile.jpg') : FileImage(i.File(imagePath)) as ImageProvider,
-              ),
+              backgroundImage: imagePath.isEmpty
+                  ? const AssetImage('assets/images/profile.jpg')
+                  : FileImage(i.File(imagePath)) as ImageProvider,
             ),
+          ),
           const SizedBox(height: 10),
           Text(
             userData.fullName,
@@ -93,8 +102,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: [
             _buildInfoRow(Icons.email, 'Email', userData.email),
-            _buildInfoRow(Icons.message, 'Saran', 'Your suggestions here'),
-            _buildInfoRow(Icons.comment, 'Kesan Pesan', 'Your impressions here'),
+            _buildInfoRow(Icons.message, 'Saran',
+                'Saran saya adalah bahwa untuk materi jika bisa disinkronkan dengan praktikum agar pengerjaan tugas dan project dapat dikerjakan dengan lebih mudah.'),
+            _buildInfoRow(Icons.comment, 'Kesan',
+                'Kesan saya, cukup menyenangkan untuk belajar mata kuliah Teknologi Pemrograman Mobile, ilmu yang didapat bisa digunakan untuk merancang aplikasi mobile yang kita butuhkan'),
           ],
         ),
       ),
@@ -102,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Row(
         children: [
@@ -117,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(value),
+              Container(width: 250, child: Text(value)),
             ],
           ),
         ],
