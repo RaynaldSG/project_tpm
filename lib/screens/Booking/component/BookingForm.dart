@@ -1,17 +1,21 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_tpm/controller/BookingController.dart';
 import 'package:project_tpm/controller/HistoryController.dart';
 import 'package:project_tpm/controller/TimeController.dart';
 import 'package:project_tpm/model/HotelDetailModel.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
 
+import '../../../model/HistoryModel.dart';
+
 late List<String> roomType;
-DateTime selectedDateFrom = DateTime.now();
-TimeOfDay hotelTimeNow = TimeOfDay.now();
-TimeOfDay userTimeNow = TimeOfDay.now();
-DateTime selectedDateTo = DateTime.now().add(const Duration(days: 1));
-TimeOfDay selectedTime = TimeOfDay.now().replacing(hour: hotelTimeNow.hour + 1);
+DateTime selectedDateFrom = DateTime.now().toUtc();
+TimeOfDay hotelTimeNow = TimeOfDay.fromDateTime(DateTime.now().toUtc());
+TimeOfDay userTimeNow = TimeOfDay.fromDateTime(DateTime.now().toUtc());
+DateTime selectedDateTo = DateTime.now().toUtc().add(const Duration(days: 1));
+TimeOfDay selectedTime = TimeOfDay.fromDateTime(DateTime.now().toUtc())
+    .replacing(hour: hotelTimeNow.hour + 1);
 BookingController bookingController = BookingController();
 TimeController timeControllerBooking = TimeController();
 HistoryController historyController = HistoryController();
@@ -40,26 +44,29 @@ class _BookingFormState extends State<BookingForm> {
 
   @override
   void initState() {
+    hotelDate = DateTime.now().toUtc().add(Duration(
+        hours: timeControllerBooking.timeConvertHour(timeControllerBooking
+            .convertCountryToCode(widget.hotelData.location!))));
+    userDate = DateTime.now().toUtc().add(Duration(
+        hours: timeControllerBooking.timeConvertHour(widget.timeLocationNow)));
+
+    print(hotelDate);
+
+    selectedDateFrom = hotelDate;
+    selectedDateTo = hotelDate.add(const Duration(days: 1));
+
     roomType = <String>[...widget.hotelData.roomsInfo!.roomType!];
     roomNow = roomType.first;
-    selectedDateFrom = timeControllerBooking.timeConvert(
-        widget.timeLocationNow, selectedDateFrom);
-    hotelTimeNow = TimeOfDay.now().replacing(
-        hour: (hotelTimeNow.hour +
-                timeControllerBooking.timeConvertHour(widget.timeLocationNow)) %
-            24);
-    selectedTime = TimeOfDay.now().replacing(
+
+    hotelTimeNow = TimeOfDay.fromDateTime(hotelDate);
+    userTimeNow = TimeOfDay.fromDateTime(userDate);
+
+    selectedTime = TimeOfDay.fromDateTime(DateTime.now().toUtc()).replacing(
         hour: (hotelTimeNow.hour +
                 1 +
                 timeControllerBooking.timeConvertHour(widget.timeLocationNow)) %
             24);
     _startUpdateMin();
-
-    hotelDate = DateTime.now().add(Duration(
-        hours: (timeControllerBooking.timeConvertHour(timeControllerBooking
-            .convertCountryToCode(widget.hotelData.location!)))));
-    userDate = DateTime.now().add(Duration(
-        hours: timeControllerBooking.timeConvertHour(widget.timeLocationNow)));
   }
 
   @override
@@ -78,7 +85,8 @@ class _BookingFormState extends State<BookingForm> {
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.all(10),
           child: Text(
-            'Your Local Time: ${TimeOfDay.now().replacing(hour: (TimeOfDay.now().hour + timeControllerBooking.timeConvertHour(widget.timeLocationNow)) % 24).format(context)}',
+            'Your Local Time: '
+            '${TimeOfDay.fromDateTime(DateTime.now().toUtc()).replacing(hour: (TimeOfDay.fromDateTime(DateTime.now().toUtc()).hour + timeControllerBooking.timeConvertHour(widget.timeLocationNow)) % 24).format(context)}',
             textAlign: TextAlign.end,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
@@ -87,7 +95,8 @@ class _BookingFormState extends State<BookingForm> {
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.all(10),
           child: Text(
-            'Hotel Local Time: ${hotelTimeNow.replacing(hour: (TimeOfDay.now().hour + timeControllerBooking.timeConvertHour(timeControllerBooking.convertCountryToCode(widget.hotelData.location!)))).format(context)}',
+            'Hotel Local Time: '
+            '${TimeOfDay.fromDateTime(DateTime.now().toUtc()).replacing(hour: (TimeOfDay.fromDateTime(DateTime.now().toUtc()).hour + timeControllerBooking.timeConvertHour(timeControllerBooking.convertCountryToCode(widget.hotelData.location!))) % 24).format(context)}',
             textAlign: TextAlign.end,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
@@ -108,7 +117,7 @@ class _BookingFormState extends State<BookingForm> {
             _timePickerContainer(),
             // TimePicker(
             //   timeNowTimePicker: hotelTimeNow.replacing(
-            //       hour: TimeOfDay.now().hour +
+            //       hour: TimeOfDay.fromDateTime(DateTime.now().toUtc()).hour +
             //           timeControllerBooking
             //               .timeConvertHour(widget.timeLocationNow)),
             // ),
@@ -125,7 +134,11 @@ class _BookingFormState extends State<BookingForm> {
   void _startUpdateMin() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
+        hotelDate = DateTime.now().toUtc().add(Duration(
+            hours: timeControllerBooking.timeConvertHour(timeControllerBooking
+                .convertCountryToCode(widget.hotelData.location!))));
         hotelTimeNow = TimeOfDay.fromDateTime(hotelDate);
+
         // selectedTime = hotelTimeNow.replacing(
         //           hour: (hotelTimeNow.hour +
         //               1) % 24);
@@ -203,10 +216,10 @@ class _BookingFormState extends State<BookingForm> {
               ? selectedDateTo = selectedDateFrom.add(const Duration(days: 1))
               : selectedDate,
       firstDate: type == 'From'
-          ? DateTime.now()
+          ? hotelDate
           : selectedDateFrom.add(const Duration(days: 1)),
       lastDate: type == 'From'
-          ? DateTime.now().add(const Duration(days: 365))
+          ? DateTime.now().toUtc().add(const Duration(days: 365))
           : selectedDateFrom.add(const Duration(days: 365)),
     );
     if (picked != null && picked != selectedDate) {
@@ -255,7 +268,7 @@ class _BookingFormState extends State<BookingForm> {
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: hotelTimeNow,
     );
     if (picked != null && picked != selectedTime) {
       setState(() {
@@ -302,22 +315,27 @@ class _BookingFormState extends State<BookingForm> {
                 String totalPrice =
                     '${widget.currencyNow} ${bookingController.calculateTotal(selectedDateFrom, selectedDateTo, widget.hotelData.roomsInfo!.roomPrice![_selectedRoomIndex], widget.currencyNow).toString()}';
 
-                // historyController.setHistory(HistoryModel(
-                //     hotelId: widget.hotelData.id!,
-                //     fromDate: selectedDateFrom,
-                //     toDate: selectedDateTo,
-                //     time: selectedTime,
-                //     roomType: roomType,
-                //     roomPrice: roomPrice,
-                //     totalPrice: totalPrice));
+                historyController.setHistory(HistoryModel(
+                    hotelId: widget.hotelData.id!,
+                    fromDate: DateFormat('dd-MM-yyy').format(selectedDateFrom),
+                    toDate: DateFormat('dd-MM-yyy').format(selectedDateTo),
+                    time: selectedTime.format(context),
+                    roomType: roomType,
+                    roomPrice: roomPrice,
+                    totalPrice: totalPrice));
                 SnackBar snackBar = const SnackBar(content: Text("Success"));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
-              else{
-                SnackBar snackBar = const SnackBar(content: Text("Fail, Invalid Input"));
+                Navigator.pop(context);
+              } else {
+                SnackBar snackBar =
+                    const SnackBar(content: Text("Fail, Invalid Input"));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorPallete.primaryColor,
+              foregroundColor: ColorPallete.secondaryColor,
+            ),
             child: const Text('Submit')),
       ),
     );

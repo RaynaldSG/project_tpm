@@ -17,20 +17,23 @@ class TimeController {
     DateTime finalTime;
 
     switch (location) {
+      case "WIB":
+        finalTime = time.add(const Duration(hours: 7));
+        break;
       case "WITA":
-        finalTime = time.add(const Duration(hours: 1));
+        finalTime = time.add(const Duration(hours: 8));
         break;
       case "WIT":
-        finalTime = time.add(const Duration(hours: 2));
+        finalTime = time.add(const Duration(hours: 9));
         break;
       case "LDN":
-        finalTime = time.add(const Duration(hours: -6));
-        break;
-      case "SGT":
         finalTime = time.add(const Duration(hours: 1));
         break;
+      case "SGT":
+        finalTime = time.add(const Duration(hours: 8));
+        break;
       case "JST":
-        finalTime = time.add(const Duration(hours: 2));
+        finalTime = time.add(const Duration(hours: 9));
         break;
       default:
         finalTime = time;
@@ -44,20 +47,23 @@ class TimeController {
     int finalTime;
 
     switch (location) {
+      case "WIB":
+        finalTime = 7;
+        break;
       case "WITA":
-        finalTime = 1;
+        finalTime = 8;
         break;
       case "WIT":
-        finalTime = 2;
+        finalTime = 9;
         break;
       case "LDN":
-        finalTime = -6;
-        break;
-      case "SGT":
         finalTime = 1;
         break;
+      case "SGT":
+        finalTime = 8;
+        break;
       case "JST":
-        finalTime = 2;
+        finalTime = 9;
         break;
       default:
         finalTime = 0;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_tpm/screens/History/HotelHistoryScreen.dart';
 import 'package:project_tpm/screens/Home/Main/HomeMainScreen.dart';
 import 'package:project_tpm/screens/Hotel/screen/BookmarkHotelScreen.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: <Widget>[
         const HomeMainScreen(),
         const BookmarkHotelScreen(),
+        const HotelHistoryScreen(),
       ][_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

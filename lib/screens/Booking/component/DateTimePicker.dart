@@ -26,8 +26,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: widget.type == 'From' ? selectedDate : selectedDateTo = selectedDateFrom.add(const Duration(days: 1)),
-        firstDate: widget.type == 'From' ? DateTime.now() : selectedDateFrom.add(const Duration(days: 1)),
-        lastDate: widget.type == 'From' ? DateTime.now().add(const Duration(days: 365)) : selectedDateFrom.add(const Duration(days: 365)),
+        firstDate: widget.type == 'From' ? DateTime.now().toUtc() : selectedDateFrom.add(const Duration(days: 1)),
+        lastDate: widget.type == 'From' ? DateTime.now().toUtc().add(const Duration(days: 365)) : selectedDateFrom.add(const Duration(days: 365)),
     );
     if (picked != null && picked != selectedDate) {
       setState(() {

@@ -18,6 +18,10 @@ class HistoryController {
     print("HISTORY LOGIC: SUCCESS");
   }
 
+  List<HistoryModel> getHistory(){
+    return historyList;
+  }
+
   void checkNull(){
     if(dataBox.get('$userEmail-history') == null){
       historyList = [];

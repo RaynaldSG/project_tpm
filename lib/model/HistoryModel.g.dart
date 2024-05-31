@@ -18,9 +18,9 @@ class HistoryModelAdapter extends TypeAdapter<HistoryModel> {
     };
     return HistoryModel(
       hotelId: fields[1] as int,
-      fromDate: fields[2] as DateTime,
-      toDate: fields[3] as DateTime,
-      time: fields[4] as TimeOfDay,
+      fromDate: fields[2] as String,
+      toDate: fields[3] as String,
+      time: fields[4] as String,
       roomType: fields[5] as String,
       roomPrice: fields[6] as String,
       totalPrice: fields[7] as String,

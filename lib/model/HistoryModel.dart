@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 part 'HistoryModel.g.dart';
 
@@ -20,13 +19,13 @@ class HistoryModel {
   final int hotelId;
 
   @HiveField(2)
-  final DateTime fromDate;
+  final String fromDate;
 
   @HiveField(3)
-  final DateTime toDate;
+  final String toDate;
 
   @HiveField(4)
-  final TimeOfDay time;
+  final String time;
 
   @HiveField(5)
   final String roomType;
