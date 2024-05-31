@@ -12,6 +12,7 @@ import 'package:project_tpm/utils/security/Encryption.dart';
 
 late Box dataBox;
 
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();

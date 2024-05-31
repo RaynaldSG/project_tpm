@@ -15,14 +15,6 @@ class Encryption {
     final encrypter = Encrypter(AES(key));
     final encrypted = encrypter.encrypt(plainText, iv: iv);
 
-    if (key.bytes.length != 32) {
-      throw ArgumentError('Encryption key must be 32 bytes long for AES-256.');
-    }
-
-    if (iv.bytes.length != 16) {
-      throw ArgumentError('Initialization vector (IV) must be 16 bytes long.');
-    }
-
     return encrypted.base64;
   }
 

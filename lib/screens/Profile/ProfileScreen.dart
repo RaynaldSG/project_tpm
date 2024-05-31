@@ -1,6 +1,7 @@
 import 'dart:io' as i;
 
 import 'package:flutter/material.dart';
+import 'package:project_tpm/controller/SharedPreferenceController.dart';
 import 'package:project_tpm/controller/UserController.dart';
 import 'package:project_tpm/model/UserModel.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
@@ -28,10 +29,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.bold),),
         centerTitle: true,
         backgroundColor: ColorPallete.secondaryColor,
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(onPressed: (){
+            SharedPreferenceController.sharedPrefData.setBool('login', false);
+            Navigator.pushReplacementNamed(context, '/');
+          }, icon: const Icon(Icons.logout))
+        ],
         ),
       body: Column(
         children: [

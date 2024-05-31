@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:project_tpm/controller/UserController.dart';
+import 'package:project_tpm/utils/notification/NotificationService.dart';
 import 'package:project_tpm/utils/security/Encryption.dart';
 
 import '../main.dart';
@@ -18,14 +19,15 @@ class RegisterController {
     if (registerFormState.currentState!.validate()) {
       if (emailData == null) {
         dataBox.put('email', [emailControllerR.text]);
+        String password = Encryption.encrypt(passControllerR.text);
         dataBox.put(
             emailControllerR.text,
             UserModel(
                 fullName: fullNControllerR.text,
                 email: emailControllerR.text,
-                password: passControllerR.text,
+                password: password,
                 imageLocation: ''));
-        UserModel user = dataBox.get(emailControllerR.text);
+        NotificationService().showNotification(title: 'Registration Success', body: 'Hi, ${fullNControllerR.text} welcome to ROOMR app');
         Timer(const Duration(seconds: 1), () {
           Navigator.pushReplacementNamed(context, '/login');
         });
@@ -43,12 +45,11 @@ class RegisterController {
         print(
             'Encrypted Password: ${Encryption.encrypt(passControllerR.text)}');
         print('tes');
-        UserModel user = dataBox.get(emailControllerR.text);
-
+        NotificationService().showNotification(title: 'Registration Success', body: 'Hi, ${fullNControllerR.text} welcome to ROOMR app');
         Navigator.pushReplacementNamed(context, '/login');
       } else {
         SnackBar snackBar =
-            const SnackBar(content: Text("Register Failed, Change Your Email"));
+        const SnackBar(content: Text("Register Failed, Change Your Email"));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } else {

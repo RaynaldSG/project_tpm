@@ -8,15 +8,8 @@ class NotificationService {
     AndroidInitializationSettings initializationSettingsAndroid =
         const AndroidInitializationSettings('logo');
 
-    var initializationSettingsIOS = DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true,
-        onDidReceiveLocalNotification:
-            (int id, String? title, String? body, String? payload) async {});
-
     var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+        android: initializationSettingsAndroid);
     await notificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse:
             (NotificationResponse notificationResponse) async {});
@@ -32,7 +25,7 @@ class NotificationService {
   }
 
   Future showNotification(
-      {int id = 0, String? title, String? body, String? payLoad}) async {
+      {int id = 0, required String title, required String body, String? payLoad}) async {
     return notificationsPlugin.show(
         id, title, body, await notificationDetails());
   }

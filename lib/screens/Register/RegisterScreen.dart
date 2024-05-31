@@ -19,6 +19,14 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
+  void dispose(){
+    fullNControllerR.text = '';
+    emailControllerR.text = '';
+    passControllerR.text = '';
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorPallete.secondaryColor,

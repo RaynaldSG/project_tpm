@@ -30,6 +30,13 @@ class _LoginScreenState extends State<LoginScreen> {
     checkLogin();
   }
 
+  @override
+  void dispose(){
+    emailController.text = '';
+    passController.text = '';
+    super.dispose();
+  }
+
   void checkLogin() async {
     loginData = await SharedPreferences.getInstance();
 

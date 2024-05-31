@@ -6,6 +6,7 @@ import 'package:project_tpm/controller/HistoryController.dart';
 import 'package:project_tpm/controller/TimeController.dart';
 import 'package:project_tpm/model/HotelDetailModel.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
+import 'package:project_tpm/utils/notification/NotificationService.dart';
 
 import '../../../model/HistoryModel.dart';
 
@@ -319,6 +320,7 @@ class _BookingFormState extends State<BookingForm> {
                     roomType: roomType,
                     roomPrice: roomPrice,
                     totalPrice: totalPrice));
+                NotificationService().showNotification(title: 'Booking Success', body: 'Success to booking room at ${widget.hotelData.title!}. Hope you have a great day!');
                 SnackBar snackBar = const SnackBar(content: Text("Success"));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 Navigator.pop(context);

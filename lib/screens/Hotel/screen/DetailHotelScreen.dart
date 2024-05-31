@@ -25,7 +25,7 @@ class _DetailHotelScreenState extends State<DetailHotelScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hotel Detail'),
+        title: const Text('Hotel Detail', style: TextStyle(fontWeight: FontWeight.bold),),
         centerTitle: true,
         backgroundColor: ColorPallete.secondaryColor,
         actions: [
