@@ -6,6 +6,7 @@ import 'package:project_tpm/utils/api_request/ApiRequest.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
 
 import '../../../../model/HotelsModel.dart';
+import '../../../../utils/notification/NotificationService.dart';
 import '../HomeMainScreen.dart';
 
 class TopCard extends StatefulWidget {
@@ -169,7 +170,9 @@ class _TopCardState extends State<TopCard> {
             ],
           ),
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
+              onPressed: () {
+                NotificationService().showNotification(title: 'tes', body: 'tes');
+              }, icon: const Icon(Icons.notifications_outlined)),
         ],
       ),
     );

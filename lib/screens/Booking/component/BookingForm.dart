@@ -61,11 +61,7 @@ class _BookingFormState extends State<BookingForm> {
     hotelTimeNow = TimeOfDay.fromDateTime(hotelDate);
     userTimeNow = TimeOfDay.fromDateTime(userDate);
 
-    selectedTime = TimeOfDay.fromDateTime(DateTime.now().toUtc()).replacing(
-        hour: (hotelTimeNow.hour +
-                1 +
-                timeControllerBooking.timeConvertHour(widget.timeLocationNow)) %
-            24);
+    selectedTime = TimeOfDay.fromDateTime(hotelDate);
     _startUpdateMin();
   }
 

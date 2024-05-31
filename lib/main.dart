@@ -6,17 +6,22 @@ import 'package:project_tpm/screens/Home/HomeScreen.dart';
 import 'package:project_tpm/screens/Login/LoginScreen.dart';
 import 'package:project_tpm/screens/Register/RegisterScreen.dart';
 import 'package:project_tpm/screens/Splash/SplashScreen.dart';
+import 'package:project_tpm/utils/notification/NotificationService.dart';
 import 'package:project_tpm/utils/security/Encryption.dart';
 
 
 late Box dataBox;
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(HistoryModelAdapter());
   dataBox = await Hive.openBox('dataBox');
   Encryption();
+
   runApp(const MyApp());
 }
 
