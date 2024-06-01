@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project_tpm/screens/History/HotelHistoryScreen.dart';
 import 'package:project_tpm/screens/Home/Main/HomeMainScreen.dart';
+import 'package:project_tpm/screens/Hotel/screen/BookmarkHotelScreen.dart';
+import 'package:project_tpm/screens/Profile/ProfileScreen.dart';
 import 'package:project_tpm/utils/color/colorPalette.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: <Widget>[
-        const HomeMainScreen()
+        const HomeMainScreen(),
+        const BookmarkHotelScreen(),
+        const HotelHistoryScreen(),
+        const ProfileScreen(),
       ][_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

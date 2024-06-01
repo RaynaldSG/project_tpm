@@ -8,6 +8,7 @@ class UserModel{
     required this.fullName,
     required this.email,
     required this.password,
+    required this.imageLocation
   });
 
   @HiveField(0)
@@ -21,4 +22,7 @@ class UserModel{
 
   @HiveField(3)
   final String password;
+
+  @HiveField(4)
+  String imageLocation;
 }

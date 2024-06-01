@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_tpm/utils/security/Encryption.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -21,7 +22,8 @@ class LoginController {
     if (loginFormState.currentState!.validate() && dataBox.get('email') != null) {
       if (dataBox.get('email').contains(emailController.text)) {
         UserModel userData = dataBox.get(emailController.text);
-        if (userData.password == passController.text) {
+        print(Encryption.decrypt(userData.password));
+        if (Encryption.decrypt(userData.password) == passController.text) {
           loginData.setBool('login', true);
           loginData.setString('fullName', userData.fullName);
           loginData.setString('email', emailController.text);

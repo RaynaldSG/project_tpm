@@ -1,43 +1,52 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'UserModel.dart';
+part of 'HistoryModel.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UserModelAdapter extends TypeAdapter<UserModel> {
+class HistoryModelAdapter extends TypeAdapter<HistoryModel> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  UserModel read(BinaryReader reader) {
+  HistoryModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return UserModel(
-      fullName: fields[1] as String,
-      email: fields[2] as String,
-      password: fields[3] as String,
-      imageLocation: fields[4] as String,
+    return HistoryModel(
+      hotelId: fields[1] as int,
+      fromDate: fields[2] as String,
+      toDate: fields[3] as String,
+      time: fields[4] as String,
+      roomType: fields[5] as String,
+      roomPrice: fields[6] as String,
+      totalPrice: fields[7] as String,
     )..id = fields[0] as String?;
   }
 
   @override
-  void write(BinaryWriter writer, UserModel obj) {
+  void write(BinaryWriter writer, HistoryModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.fullName)
+      ..write(obj.hotelId)
       ..writeByte(2)
-      ..write(obj.email)
+      ..write(obj.fromDate)
       ..writeByte(3)
-      ..write(obj.password)
+      ..write(obj.toDate)
       ..writeByte(4)
-      ..write(obj.imageLocation);
+      ..write(obj.time)
+      ..writeByte(5)
+      ..write(obj.roomType)
+      ..writeByte(6)
+      ..write(obj.roomPrice)
+      ..writeByte(7)
+      ..write(obj.totalPrice);
   }
 
   @override
@@ -46,7 +55,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserModelAdapter &&
+      other is HistoryModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
