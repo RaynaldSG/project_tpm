@@ -169,10 +169,6 @@ class _TopCardState extends State<TopCard> {
               ),
             ],
           ),
-          IconButton(
-              onPressed: () {
-                NotificationService().showNotification(title: 'tes', body: 'tes');
-              }, icon: const Icon(Icons.notifications_outlined)),
         ],
       ),
     );
